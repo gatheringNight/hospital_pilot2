@@ -21,7 +21,15 @@ python step1/01_prepare_qgtk_tasks.py --resume
 
 若院内服务器不能联网，须提前准备 `requirements-local.txt` 对应的离线 Python 安装包；本仓库也不包含 `llama-server` 可执行程序。01结束后查看 `private/step1_output/prepare_summary.json`，确认 `tasks > 0` 再运行02。
 
-先确认已安装 Git LFS 并下载模型分片：`git lfs pull`。另开终端，手动启动本地模型；启动脚本会自动从分片还原 GGUF、校验 SHA-256，已有完整模型也会校验。Windows PowerShell 使用第一条；Linux 使用第二条。`llama-server` 需在 `PATH` 中，或通过参数/环境变量指定院内实际路径；`GpuLayers` 按服务器硬件设置，CPU 可用 0。
+先安装 Git LFS 并补齐模型分片。启动脚本会自动合并分片、校验 SHA-256；也可以用第三条命令提前手动检查还原。已有完整模型时只校验，不重复合并。无需手工拼接分片。
+
+```shell
+git lfs install
+git lfs pull
+python tools/model_parts.py restore
+```
+
+另开终端，手动启动本地模型。Windows PowerShell 使用第一条；Linux 使用第二条。`llama-server` 需在 `PATH` 中，或通过参数/环境变量指定院内实际路径；`GpuLayers` 按服务器硬件设置，CPU 可用 0。
 
 ```powershell
 .\start_local_model.ps1 -GpuLayers 0
@@ -134,6 +142,8 @@ python step9/10_aggregate_local_agent_evidence.py
 
 输出在 `private/step9_agent3_natural/`：`agent3_judgments.jsonl` 是逐回答结论，`agent3_evidence_graphs.jsonl` 是回答→claim→可信KG／检索来源／反事实的链，`agent3_review_queue.jsonl` 列出需人工复核的项目，`summary.json` 汇总数量。事实冲突与投毒来源分开报告；本步不读取正确答案或预设目标错误，也不计算最终评价指标。
 
-## 模型分片上传
+## 模型分片与自动合并
 
-在已核实模型再分发许可、确认目标仓库 LFS 额度后，由持有完整 GGUF 的电脑运行 `python tools/model_parts.py split`。脚本生成 `models/model_parts.json` 和三个 `.partXX` 分片；只提交清单与分片，完整 `.gguf` 继续由 `.gitignore` 排除。分片已在 `.gitattributes` 中配置为 Git LFS 对象。首次拆分约需另备与模型大小相当的磁盘空间；GitHub 克隆者需安装 Git LFS，运行 `git lfs pull` 后再启动模型。
+仓库用 Git LFS 保存三个 `.partXX` 分片及 `models/model_parts.json` 清单；完整 `.gguf` 被 `.gitignore` 排除。克隆后运行上方的 `git lfs pull`，再执行 `python tools/model_parts.py restore`，或直接运行 `start_local_model.ps1` / `start_local_model.sh` 自动还原。脚本逐片和整体验证 SHA-256；还原后的完整模型仅留在本机。需预留约 2.1 GB 空间存放还原文件。院内无法访问 GitHub 时，须通过院方批准的离线方式提供已下载的仓库和分片。
+
+模型来源、许可证与声明见 [MODEL_PROVENANCE.md](MODEL_PROVENANCE.md)、`models/QWEN_LICENSE.txt` 和 `models/NOTICE.txt`。模型许可限于非商业研究或评估用途，其他用途须按许可证取得相应授权。
