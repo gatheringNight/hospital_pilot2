@@ -1,0 +1,9 @@
+# Hospital exports, generated tasks, model replies, crosswalks and audit files stay on the hospital server.
+private/
+legacy_three_table_demo/
+__pycache__/
+*.pyc
+*.sqlite
+*.db
+models/*.gguf
+models/*.gguf

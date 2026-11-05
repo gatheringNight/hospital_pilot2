@@ -1,0 +1,13 @@
+{
+  "schema_version": "hospital-16-table-mapping-v2",
+  "encoding": "utf-8-sig",
+  "file_pattern": "{group}.csv",
+  "patient_key": "EMPIID",
+  "encounter_key": "就诊流水号",
+  "visit_role": "基线或随访",
+  "visit_date": "入院日期",
+  "max_cards_per_question": 6,
+  "max_questions_per_patient": 12,
+  "field_aliases": {},
+  "files": {}
+}

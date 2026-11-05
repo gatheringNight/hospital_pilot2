@@ -1,0 +1,2 @@
+﻿EMPIID,就诊流水号,住院号,共测定葡萄糖值,变异系数,平均值mmolL,标准差mmolL,最高值mmolL,最低值mmolL,葡萄糖>13.9mmol/l_时间,葡萄糖>13.9mmol/l_百分比,10mmol/l＜葡萄糖≤13.9mmol/l_时间,10mmol/l＜葡萄糖≤13.9mmol/l_百分比,3.9mmol/l≤葡萄糖≤10mmol/l_时间,3.9mmol/l≤葡萄糖≤10mmol/l_百分比,3.0mmol/l≤葡萄糖≤3.9mmol/l_时间,3.0mmol/l≤葡萄糖≤3.9mmol/l_百分比,葡萄糖≤3mmol/l_时间,葡萄糖≤3mmol/l_百分比,平均葡萄糖波动幅度mmolL
+SYN-EMPI-0001,SYN-ENC-0001-B,SYN-HOSP-SYN-0001-B,3,8.5,10.2,0.87,11.0,9.5,,,4,33.3,8,66.7,,,,,1.5

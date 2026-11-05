@@ -1,0 +1,5 @@
+EMPIID,就诊流水号,检验项目名称,检验时间,数值型结果,单位
+DEMO-PAT-001,DEMO-ENC-B,糖化血红蛋白,2024-01-12,8.2,%
+DEMO-PAT-001,DEMO-ENC-F,糖化血红蛋白,2024-07-06,7.4,%
+DEMO-PAT-001,DEMO-ENC-B,空腹血糖,2024-01-12,9.8,mmol/L
+DEMO-PAT-001,DEMO-ENC-F,空腹血糖,2024-07-06,7.2,mmol/L
