@@ -19,9 +19,18 @@ python -m pip install -r requirements-local.txt
 python step1/01_prepare_qgtk_tasks.py --resume
 ```
 
-若院内服务器不能联网，须提前准备 `requirements-local.txt` 对应的离线 Python 安装包；本仓库也不包含 `llama-server` 可执行程序。01结束后查看 `private/step1_output/prepare_summary.json`，确认 `tasks > 0` 再运行02。
+若院内服务器不能联网，须提前准备 `requirements-local.txt` 对应的离线 Python 安装包。01结束后查看 `private/step1_output/prepare_summary.json`，确认 `tasks > 0` 再运行02。
 
-先安装 Git LFS 并补齐模型分片。启动脚本会自动合并分片、校验 SHA-256；也可以用第三条命令提前手动检查还原。已有完整模型时只校验，不重复合并。无需手工拼接分片。
+Linux 还需准备一次 `llama-server`：本仓库不附带操作系统相关的可执行程序。由院方按规定取得 [llama.cpp 官方源码](https://github.com/ggml-org/llama.cpp)，放在本仓库同级的 `../llama.cpp`；允许联网的环境可在本仓库目录运行 `git clone --depth 1 https://github.com/ggml-org/llama.cpp.git ../llama.cpp`。院内服务器需有 CMake 和 C++ 编译器。在 `hospital_pilot2` 目录执行 CPU 版构建：
+
+```bash
+cmake -S ../llama.cpp -B ../llama.cpp/build -DCMAKE_BUILD_TYPE=Release
+cmake --build ../llama.cpp/build --config Release --target llama-server -j 4
+```
+
+构建后可用 `../llama.cpp/build/bin/llama-server --version` 检查。若院内已有兼容的 `llama-server`，可跳过构建。无外网时须提前通过院方批准的方式准备源码或兼容的 Linux 可执行程序；不要在院内直接运行需要联网的下载命令。
+
+先确认系统已安装 Git LFS；`git lfs install` 只负责初始化 Git LFS，不会安装这个程序。再补齐模型分片。启动脚本会自动合并分片、校验 SHA-256；也可以用第三条命令提前手动检查还原。已有完整模型时只校验，不重复合并。无需手工拼接分片。
 
 ```shell
 git lfs install
@@ -29,14 +38,14 @@ git lfs pull
 python tools/model_parts.py restore
 ```
 
-另开终端，手动启动本地模型。Windows PowerShell 使用第一条；Linux 使用第二条。`llama-server` 需在 `PATH` 中，或通过参数/环境变量指定院内实际路径；`GpuLayers` 按服务器硬件设置，CPU 可用 0。
+另开终端，手动启动本地模型。Windows PowerShell 使用第一条；Linux 若按上面的同级目录构建，使用第二条。Linux 已将 `llama-server` 放入 `PATH` 时也可直接运行 `bash start_local_model.sh`。CPU 使用 0 层 GPU 卸载；需要 GPU 时再按院内硬件调整。
 
 ```powershell
 .\start_local_model.ps1 -GpuLayers 0
 ```
 
 ```bash
-bash start_local_model.sh
+LLAMA_SERVER="$PWD/../llama.cpp/build/bin/llama-server" bash start_local_model.sh
 ```
 
 保持模型服务运行，在另一个终端生成并复核 Q/GT/K：
