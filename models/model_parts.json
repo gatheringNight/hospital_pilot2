@@ -1,0 +1,24 @@
+{
+  "schema_version": "hospital-gguf-parts-v1",
+  "model": "qwen2.5-3b-instruct-q4_k_m.gguf",
+  "model_size": 2104932768,
+  "model_sha256": "626b4a6678b86442240e33df819e00132d3ba7dddfe1cdc4fbb18e0a9615c62d",
+  "part_bytes": 1000000000,
+  "parts": [
+    {
+      "file": "qwen2.5-3b-instruct-q4_k_m.gguf.part01",
+      "size": 1000000000,
+      "sha256": "f593db486fa99a60db284cf42d5b45427c2a4e10e6ffbbf5097059c7215f5c43"
+    },
+    {
+      "file": "qwen2.5-3b-instruct-q4_k_m.gguf.part02",
+      "size": 1000000000,
+      "sha256": "45edd06d74a834eebefcb259ef4f89e253935355e6272b3cb22761662e3ee37b"
+    },
+    {
+      "file": "qwen2.5-3b-instruct-q4_k_m.gguf.part03",
+      "size": 104932768,
+      "sha256": "c8a5566eb3dd597b3088ba0be588de9c4e9a2dbb8614d032da8eddc1958f1c77"
+    }
+  ]
+}

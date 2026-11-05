@@ -6,4 +6,5 @@ __pycache__/
 *.sqlite
 *.db
 models/*.gguf
-models/*.gguf
+models/*.part??.tmp
+models/*.restore-tmp
